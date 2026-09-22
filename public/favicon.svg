@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 360" fill="none">
+  <defs>
+    <linearGradient id="beezyFaviconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00F5A0" />
+      <stop offset="50%" stop-color="#00DF9A" />
+      <stop offset="100%" stop-color="#00B87A" />
+    </linearGradient>
+  </defs>
+  <rect width="360" height="360" rx="72" fill="#030b0d"/>
+  <g transform="translate(18, 18) scale(0.9)">
+    <polygon points="146,10 211,10 244,75 113,75" fill="url(#beezyFaviconGrad)" />
+    <path d="M 184,80 L 244,80 L 196,135 L 210,150 L 280,150 L 312,210 L 47,210 L 10,140 L 41,80 L 73,140 L 196,135 Z" fill="url(#beezyFaviconGrad)" />
+    <polygon points="249,215 311,215 276,275 244,275" fill="url(#beezyFaviconGrad)" />
+    <polygon points="70,280 278,280 248,340 40,340" fill="url(#beezyFaviconGrad)" />
+  </g>
+</svg>
