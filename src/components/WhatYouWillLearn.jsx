@@ -12,7 +12,7 @@ import {
   ChevronDown
 } from 'lucide-react';
 
-export default function WhatYouWillLearn({ onOpenCheckout, onOpenPreview }) {
+export default function WhatYouWillLearn({ onOpenCheckout }) {
   const [openItem, setOpenItem] = useState(0);
 
   const modules = [

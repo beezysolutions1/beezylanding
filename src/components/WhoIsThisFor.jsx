@@ -7,6 +7,7 @@ import {
   Scissors, 
   Building2, 
   Scale, 
+  Briefcase,
   Download, 
   CheckCircle2, 
   ArrowRight,
@@ -17,7 +18,6 @@ import {
   TrendingUp,
   Check
 } from 'lucide-react';
-import { BeezyIcon } from './BeezyLogo';
 
 export default function WhoIsThisFor({ onOpenCheckout }) {
   const [activeTab, setActiveTab] = useState('all');
@@ -92,6 +92,16 @@ export default function WhoIsThisFor({ onOpenCheckout }) {
       querySample: '"chartered accountant / GST consultant"',
       benefit: "Establish unbeatable authority for corporate audits, tax filings, and legal advisory.",
       impact: "High-Value Retainers"
+    },
+    {
+      title: "All Local Service Businesses",
+      icon: Briefcase,
+      tag: "Universal Blueprint",
+      color: "from-emerald-500/15 via-teal-500/10 to-transparent",
+      iconBg: "bg-emerald-50 text-emerald-700 border-emerald-200",
+      querySample: '"contractors, architects, studios near me"',
+      benefit: "Consultants, Architects, Photographers, Fitness Studios, Automobile Garages & Home Contractors.",
+      impact: "Zero Ad Spend"
     }
   ];
 
@@ -172,32 +182,6 @@ export default function WhoIsThisFor({ onOpenCheckout }) {
               </div>
             );
           })}
-
-          {/* Highlighted 8th Catch-All Card with Premium Obsidian Emerald Theme */}
-          <div className="rounded-3xl p-6 bg-gradient-to-br from-[#041215] via-[#072025] to-[#030d0f] border-2 border-emerald-500/50 shadow-xl shadow-emerald-500/20 text-white flex flex-col justify-between relative overflow-hidden group hover:scale-[1.02] transition-transform">
-            
-            {/* Ambient inner glow */}
-            <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/20 blur-2xl rounded-full pointer-events-none" />
-
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <div className="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center p-2 shadow-lg shadow-emerald-500/20">
-                  <BeezyIcon className="w-full h-full" />
-                </div>
-                <span className="text-[10px] font-black uppercase tracking-wider text-emerald-300 bg-emerald-500/20 border border-emerald-400/40 px-2.5 py-1 rounded-lg">
-                  Universal Framework
-                </span>
-              </div>
-
-              <h3 className="text-base font-bold text-white mb-2.5">
-                Any Local Service Business
-              </h3>
-
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                Consultants, Architects, Photographers, Fitness Studios, Automobile Garages, Event Planners & Home Contractors.
-              </p>
-            </div>
-          </div>
         </div>
 
         {/* Bottom Banner Callout with High-Converting CTA */}

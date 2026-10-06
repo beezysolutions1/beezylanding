@@ -18,21 +18,31 @@ export default function SocialProofToast() {
   useEffect(() => {
     if (isDismissed) return;
 
-    const initialTimeout = setTimeout(() => {
-      setIsVisible(true);
-    }, 4000);
+    let hideTimeout;
+    let nextTimeout;
 
-    const interval = setInterval(() => {
-      setIsVisible(false);
-      setTimeout(() => {
-        setCurrentIdx(prev => (prev + 1) % buyers.length);
-        setIsVisible(true);
-      }, 800);
-    }, 11000);
+    const showToast = () => {
+      setIsVisible(true);
+      // Stay visible for 6 seconds
+      hideTimeout = setTimeout(() => {
+        setIsVisible(false);
+        // Wait 25 seconds before showing the next purchase popup
+        nextTimeout = setTimeout(() => {
+          setCurrentIdx(prev => (prev + 1) % buyers.length);
+          showToast();
+        }, 25000);
+      }, 6000);
+    };
+
+    // Initial appearance after 6 seconds
+    const initialTimeout = setTimeout(() => {
+      showToast();
+    }, 6000);
 
     return () => {
       clearTimeout(initialTimeout);
-      clearInterval(interval);
+      clearTimeout(hideTimeout);
+      clearTimeout(nextTimeout);
     };
   }, [isDismissed]);
 

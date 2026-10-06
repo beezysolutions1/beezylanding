@@ -16,20 +16,20 @@ export default function PdfPreviewModal({ isOpen, onClose, onOpenCheckout }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fadeIn">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-fadeIn">
       <div 
-        className="relative w-full max-w-2xl bg-[#06171a] border-2 border-emerald-500/50 rounded-3xl p-6 sm:p-8 shadow-2xl shadow-emerald-500/20 text-white overflow-hidden max-h-[90vh] flex flex-col"
+        className="relative w-full max-w-2xl bg-[#06171a] border-2 border-emerald-500/50 rounded-2xl sm:rounded-3xl p-4 sm:p-7 shadow-2xl shadow-emerald-500/20 text-white overflow-hidden max-h-[92vh] flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between pb-4 border-b border-emerald-900/40">
-          <div className="flex items-center gap-3">
+        <div className="flex items-center justify-between pb-3.5 border-b border-emerald-900/40 pr-8 sm:pr-0">
+          <div className="flex items-center gap-2 sm:gap-3">
             <BeezyLogo size="small" />
             <div>
-              <h3 className="text-base font-bold text-white flex items-center gap-2">
-                <span>Look Inside: Guide Preview</span>
-                <span className="text-[10px] font-mono bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-2 py-0.5 rounded">
-                  Page {currentPage} of {totalPreviewPages} Sample
+              <h3 className="text-sm sm:text-base font-bold text-white flex items-center gap-2">
+                <span>Guide Sample</span>
+                <span className="text-[9px] sm:text-[10px] font-mono bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 px-2 py-0.5 rounded">
+                  Page {currentPage} of {totalPreviewPages}
                 </span>
               </h3>
             </div>
@@ -37,9 +37,10 @@ export default function PdfPreviewModal({ isOpen, onClose, onOpenCheckout }) {
 
           <button 
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-[#082227] text-slate-400 hover:text-white flex items-center justify-center hover:bg-emerald-950 transition border border-emerald-500/20 cursor-pointer"
+            className="absolute top-4 right-4 sm:static w-8 h-8 rounded-full bg-[#082227] text-slate-400 hover:text-white flex items-center justify-center hover:bg-emerald-950 transition border border-emerald-500/20 cursor-pointer"
+            aria-label="Close preview"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 
@@ -143,22 +144,22 @@ export default function PdfPreviewModal({ isOpen, onClose, onOpenCheckout }) {
         </div>
 
         {/* Footer actions */}
-        <div className="pt-3 border-t border-emerald-900/40 flex items-center justify-between gap-3">
+        <div className="pt-3 border-t border-emerald-900/40 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2.5">
           <div className="flex items-center gap-2">
             <button
               disabled={currentPage === 1}
               onClick={() => setCurrentPage(p => p - 1)}
-              className="p-2 rounded-xl bg-[#082227] text-slate-300 hover:text-white disabled:opacity-30 disabled:pointer-events-none border border-emerald-950 cursor-pointer"
+              className="p-1.5 sm:p-2 rounded-xl bg-[#082227] text-slate-300 hover:text-white disabled:opacity-30 disabled:pointer-events-none border border-emerald-950 cursor-pointer"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
-            <span className="text-xs text-slate-400 font-medium">
+            <span className="text-xs text-slate-400 font-medium font-mono">
               {currentPage} / {totalPreviewPages}
             </span>
             <button
               disabled={currentPage === totalPreviewPages}
               onClick={() => setCurrentPage(p => p + 1)}
-              className="p-2 rounded-xl bg-[#082227] text-slate-300 hover:text-white disabled:opacity-30 disabled:pointer-events-none border border-emerald-950 cursor-pointer"
+              className="p-1.5 sm:p-2 rounded-xl bg-[#082227] text-slate-300 hover:text-white disabled:opacity-30 disabled:pointer-events-none border border-emerald-950 cursor-pointer"
             >
               <ChevronRight className="w-4 h-4" />
             </button>
@@ -169,10 +170,10 @@ export default function PdfPreviewModal({ isOpen, onClose, onOpenCheckout }) {
               onClose();
               onOpenCheckout();
             }}
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-500 hover:from-emerald-300 hover:to-teal-300 text-slate-950 font-bold text-xs sm:text-sm px-4 py-2.5 rounded-2xl shadow-lg shadow-emerald-500/25 transition-all hover:scale-105 cursor-pointer"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 sm:gap-2 bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-500 hover:from-emerald-300 hover:to-teal-300 text-slate-950 font-display font-black text-xs sm:text-sm px-4 py-2.5 rounded-xl sm:rounded-2xl shadow-lg shadow-emerald-500/25 transition-all hover:scale-105 active:scale-95 cursor-pointer whitespace-nowrap"
           >
-            <Download className="w-4 h-4" />
-            <span>Get Full PDF Guide for ₹499</span>
+            <Download className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+            <span>Get Full Guide for ₹499</span>
           </button>
         </div>
 

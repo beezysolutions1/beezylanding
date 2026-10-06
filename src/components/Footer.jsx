@@ -2,7 +2,7 @@ import React from 'react';
 import { MapPin } from 'lucide-react';
 import BeezyLogo from './BeezyLogo';
 
-export default function Footer() {
+export default function Footer({ onOpenLegal }) {
   return (
     <footer className="bg-[#020709] border-t border-emerald-950/80 py-12 text-slate-400 text-xs">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -30,13 +30,19 @@ export default function Footer() {
           {/* Quick links & Disclaimer */}
           <div className="md:col-span-6 md:text-right space-y-3">
             <div className="flex flex-wrap md:justify-end gap-4 text-xs font-semibold text-slate-300">
-              <span className="hover:text-emerald-400 cursor-pointer transition">Terms & Conditions</span>
+              <button 
+                onClick={() => onOpenLegal && onOpenLegal('terms')}
+                className="hover:text-emerald-400 cursor-pointer transition underline-offset-4 hover:underline"
+              >
+                Terms & Conditions
+              </button>
               <span>•</span>
-              <span className="hover:text-emerald-400 cursor-pointer transition">Privacy Policy</span>
-              <span>•</span>
-              <span className="hover:text-emerald-400 cursor-pointer transition">Refund Policy</span>
-              <span>•</span>
-              <span className="hover:text-emerald-400 cursor-pointer transition">Contact Support</span>
+              <button 
+                onClick={() => onOpenLegal && onOpenLegal('privacy')}
+                className="hover:text-emerald-400 cursor-pointer transition underline-offset-4 hover:underline"
+              >
+                Privacy Policy
+              </button>
             </div>
 
             <div className="p-4 rounded-2xl bg-[#051316] border border-emerald-900/30 text-[11px] text-slate-400 md:text-right leading-relaxed max-w-md md:ml-auto">
