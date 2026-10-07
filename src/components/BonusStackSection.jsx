@@ -7,8 +7,7 @@ import {
   Key, 
   ShieldAlert, 
   Download, 
-  ArrowRight,
-  Sparkles
+  ArrowRight
 } from 'lucide-react';
 
 export default function BonusStackSection({ onOpenCheckout }) {

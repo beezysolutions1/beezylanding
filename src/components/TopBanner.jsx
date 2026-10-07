@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Timer, ArrowRight, Zap, Sparkles } from 'lucide-react';
+import { Timer, ArrowRight, Zap } from 'lucide-react';
 
 export default function TopBanner({ onOpenCheckout }) {
   const [timeLeft, setTimeLeft] = useState({ hours: 4, minutes: 23, seconds: 48 });

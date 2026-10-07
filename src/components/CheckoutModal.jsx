@@ -15,9 +15,9 @@ import confetti from 'canvas-confetti';
 import BeezyLogo from './BeezyLogo';
 
 // =========================================================================
-// 🟢 LIVE RAZORPAY CONFIGURATION (Beezy Solutions - https://beezysolutions.in)
+// 💳 RAZORPAY CONFIGURATION (Loaded from .env with fallback)
 // =========================================================================
-export const RAZORPAY_KEY_ID = "rzp_live_TPA7q1NxbassQE";
+export const RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_test_TJLoLZ2dLRF2W4"; 
 
 export default function CheckoutModal({ isOpen, onClose, onOpenLegal }) {
   const [isProcessing, setIsProcessing] = useState(false);
@@ -27,23 +27,18 @@ export default function CheckoutModal({ isOpen, onClose, onOpenLegal }) {
 
   if (!isOpen) return null;
 
+  const isTestMode = !RAZORPAY_KEY_ID || RAZORPAY_KEY_ID.startsWith('rzp_test_');
+
   const handlePayWithRazorpay = (e) => {
     if (e) e.preventDefault();
     setErrorMessage('');
     setIsProcessing(true);
 
-    // If placeholder key is present, run a smooth instant test simulation
-    if (!RAZORPAY_KEY_ID || RAZORPAY_KEY_ID === "rzp_test_YOUR_KEY_HERE") {
+    // If using placeholder test key or Razorpay SDK not available, run instant test simulation
+    if (!RAZORPAY_KEY_ID || RAZORPAY_KEY_ID === "rzp_test_YOUR_KEY_HERE" || typeof window.Razorpay === 'undefined') {
       setTimeout(() => {
-        completePaymentSimulation('demo_pay_' + Math.random().toString(36).substring(2, 10));
+        completePaymentSimulation('test_pay_' + Math.random().toString(36).substring(2, 10));
       }, 1000);
-      return;
-    }
-
-    // Razorpay SDK verification
-    if (typeof window.Razorpay === 'undefined') {
-      console.warn("Razorpay SDK not loaded from CDN. Running test simulation.");
-      completePaymentSimulation('sim_pay_' + Math.random().toString(36).substring(2, 10));
       return;
     }
 
@@ -124,8 +119,8 @@ export default function CheckoutModal({ isOpen, onClose, onOpenLegal }) {
 
   const triggerFileDownload = (pId) => {
     const link = document.createElement('a');
-    link.href = '/Google-Business-Profile-Guide.html';
-    link.download = 'Beezy-Solutions-Google-Business-Profile-Guide.html';
+    link.href = '/Google-Business-Profile-Guide.pdf';
+    link.download = 'Google-Business-Profile-Guide.pdf';
     
     link.onerror = () => {
       downloadGeneratedGuide(pId);
@@ -181,10 +176,11 @@ Contact Beezy Solutions · Kochi, Kerala · https://beezysolutions.in
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-fadeIn">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-fadeIn" data-lenis-prevent>
       <div 
         className="relative w-full max-w-lg bg-[#06171a] border-2 border-emerald-500/50 rounded-2xl sm:rounded-3xl p-4 sm:p-7 shadow-2xl shadow-emerald-500/20 text-white overflow-hidden max-h-[92vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
+        data-lenis-prevent
       >
         {/* Close Button */}
         <button 
@@ -201,9 +197,15 @@ Contact Beezy Solutions · Kochi, Kerala · https://beezysolutions.in
             <div className="flex items-center justify-between gap-2 pb-3.5 border-b border-emerald-900/40 pr-9 sm:pr-10">
               <BeezyLogo size="small" />
               <div>
-                <span className="text-[9px] sm:text-[10px] font-mono font-bold bg-emerald-400/10 text-emerald-300 border border-emerald-400/30 px-2 py-0.5 rounded flex items-center gap-1">
-                  <ShieldCheck className="w-3 h-3 text-emerald-400" /> RAZORPAY VERIFIED
-                </span>
+                {isTestMode ? (
+                  <span className="text-[9px] sm:text-[10px] font-mono font-bold bg-amber-400/10 text-amber-300 border border-amber-400/30 px-2 py-0.5 rounded flex items-center gap-1">
+                    <ShieldCheck className="w-3 h-3 text-amber-400" /> TEST MODE ACTIVE
+                  </span>
+                ) : (
+                  <span className="text-[9px] sm:text-[10px] font-mono font-bold bg-emerald-400/10 text-emerald-300 border border-emerald-400/30 px-2 py-0.5 rounded flex items-center gap-1">
+                    <ShieldCheck className="w-3 h-3 text-emerald-400" /> RAZORPAY VERIFIED
+                  </span>
+                )}
               </div>
             </div>
 

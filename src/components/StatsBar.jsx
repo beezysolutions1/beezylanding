@@ -1,5 +1,5 @@
 import React from 'react';
-import { Award, TrendingUp, Star, Zap, CheckCircle2, ShieldCheck } from 'lucide-react';
+import { Award, TrendingUp, Star, Zap, ShieldCheck } from 'lucide-react';
 
 export default function StatsBar() {
   const stats = [

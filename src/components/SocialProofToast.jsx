@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ShoppingBag, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import { BeezyIcon } from './BeezyLogo';
 
 const buyers = [

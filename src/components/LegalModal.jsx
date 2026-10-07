@@ -3,7 +3,6 @@ import {
   X, 
   ShieldCheck, 
   FileText, 
-  CheckCircle2, 
   Lock
 } from 'lucide-react';
 import BeezyLogo from './BeezyLogo';
@@ -42,10 +41,12 @@ export default function LegalModal({ isOpen, onClose, initialTab = 'terms' }) {
     <div 
       className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-fadeIn"
       onClick={onClose}
+      data-lenis-prevent
     >
       <div 
         className="relative w-full max-w-3xl bg-[#051316] border-2 border-emerald-500/40 rounded-3xl p-5 sm:p-7 shadow-2xl shadow-emerald-500/20 text-white overflow-hidden max-h-[90vh] flex flex-col"
         onClick={(e) => e.stopPropagation()}
+        data-lenis-prevent
       >
         {/* Modal Header */}
         <div className="flex items-center justify-between pb-4 border-b border-emerald-900/40 shrink-0">

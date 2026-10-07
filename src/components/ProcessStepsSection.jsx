@@ -1,11 +1,6 @@
 import React from 'react';
 import { 
-  CheckCircle2, 
-  MapPin, 
-  Search, 
-  TrendingUp, 
   Sparkles, 
-  ShieldCheck, 
   ArrowRight,
   Download
 } from 'lucide-react';

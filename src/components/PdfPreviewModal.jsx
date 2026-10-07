@@ -16,10 +16,11 @@ export default function PdfPreviewModal({ isOpen, onClose, onOpenCheckout }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-fadeIn">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-fadeIn" data-lenis-prevent>
       <div 
         className="relative w-full max-w-2xl bg-[#06171a] border-2 border-emerald-500/50 rounded-2xl sm:rounded-3xl p-4 sm:p-7 shadow-2xl shadow-emerald-500/20 text-white overflow-hidden max-h-[92vh] flex flex-col"
         onClick={(e) => e.stopPropagation()}
+        data-lenis-prevent
       >
         {/* Header */}
         <div className="flex items-center justify-between pb-3.5 border-b border-emerald-900/40 pr-8 sm:pr-0">

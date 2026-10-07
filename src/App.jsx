@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import Lenis from 'lenis';
 import TopBanner from './components/TopBanner';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -18,6 +19,50 @@ function App() {
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [isLegalOpen, setIsLegalOpen] = useState(false);
   const [legalTab, setLegalTab] = useState('terms');
+  const lenisRef = useRef(null);
+
+  // Initialize Lenis smooth scroll engine
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.15,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1,
+      touchMultiplier: 1.5,
+      infinite: false,
+    });
+
+    lenisRef.current = lenis;
+    window.lenis = lenis;
+
+    let animationFrameId;
+
+    function raf(time) {
+      lenis.raf(time);
+      animationFrameId = requestAnimationFrame(raf);
+    }
+
+    animationFrameId = requestAnimationFrame(raf);
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      lenis.destroy();
+      lenisRef.current = null;
+      delete window.lenis;
+    };
+  }, []);
+
+  // Pause Lenis virtual scrolling when modals are open to preserve natural inner modal scroll
+  useEffect(() => {
+    if (!lenisRef.current) return;
+    if (isCheckoutOpen || isLegalOpen) {
+      lenisRef.current.stop();
+    } else {
+      lenisRef.current.start();
+    }
+  }, [isCheckoutOpen, isLegalOpen]);
 
   const openCheckout = () => {
     setIsCheckoutOpen(true);

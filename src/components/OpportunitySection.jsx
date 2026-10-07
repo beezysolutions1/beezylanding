@@ -3,13 +3,9 @@ import {
   Search, 
   MapPin, 
   TrendingUp, 
-  DollarSign, 
-  Users, 
   Check, 
   ArrowRight,
-  Sparkles,
-  PhoneCall,
-  Navigation
+  PhoneCall
 } from 'lucide-react';
 
 export default function OpportunitySection({ onOpenCheckout }) {

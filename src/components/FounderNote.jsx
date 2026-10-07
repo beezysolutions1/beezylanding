@@ -2,7 +2,6 @@ import React from 'react';
 import { 
   MapPin, 
   Award, 
-  Quote, 
   Building
 } from 'lucide-react';
 import founderImg from '../assets/rashid_founder.jpg';

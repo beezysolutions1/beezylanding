@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { 
   Download, 
-  ShieldCheck, 
   Zap, 
   Clock, 
   ArrowRight, 
   Lock,
   CheckCircle2
 } from 'lucide-react';
-import { BeezyIcon } from './BeezyLogo';
 
 export default function FinalCta({ onOpenCheckout }) {
   const [minutes, setMinutes] = useState(24);

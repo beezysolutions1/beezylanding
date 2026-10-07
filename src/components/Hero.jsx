@@ -2,19 +2,14 @@ import React from 'react';
 import { 
   CheckCircle2, 
   Download, 
-  Star, 
   ShieldCheck, 
   Zap, 
-  TrendingUp, 
-  FileText, 
   ArrowRight,
   Clock,
   Sparkles,
   Award,
-  Lock,
   Smartphone
 } from 'lucide-react';
-import BeezyLogo, { BeezyIcon } from './BeezyLogo';
 
 export default function Hero({ onOpenCheckout }) {
   return (

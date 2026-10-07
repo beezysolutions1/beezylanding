@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { 
   GraduationCap, 
   Plane, 
@@ -9,18 +9,14 @@ import {
   Scale, 
   Briefcase,
   Download, 
-  CheckCircle2, 
   ArrowRight,
   Sparkles,
   Users,
-  Target,
   Zap,
-  TrendingUp,
   Check
 } from 'lucide-react';
 
 export default function WhoIsThisFor({ onOpenCheckout }) {
-  const [activeTab, setActiveTab] = useState('all');
 
   const industries = [
     {
