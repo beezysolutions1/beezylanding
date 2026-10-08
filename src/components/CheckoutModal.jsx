@@ -25,12 +25,21 @@ export default function CheckoutModal({ isOpen, onClose, onOpenLegal }) {
 
   if (!isOpen) return null;
 
-  const isTestMode = !RAZORPAY_KEY_ID || RAZORPAY_KEY_ID.startsWith('rzp_test_');
+  const isLocalhost = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
 
   const handlePayWithRazorpay = (e) => {
     if (e) e.preventDefault();
     setIsProcessing(true);
-    // Directly launch the verified Razorpay payment endpoint (prevents RBI order_id client popup errors)
+
+    // 🧪 In localhost: Run complete simulated payment + real PDF auto-download
+    if (isLocalhost) {
+      setTimeout(() => {
+        completePaymentSimulation('test_pay_' + Math.random().toString(36).substring(2, 9));
+      }, 1000);
+      return;
+    }
+
+    // 🚀 In production: Directly launch official Live Razorpay checkout
     window.location.href = RAZORPAY_PAGE_URL;
   };
 
