@@ -131,15 +131,9 @@ Contact Beezy Solutions · Kochi, Kerala · https://beezysolutions.in
             <div className="flex items-center justify-between gap-2 pb-3.5 border-b border-emerald-900/40 pr-9 sm:pr-10">
               <BeezyLogo size="small" />
               <div>
-                {isTestMode ? (
-                  <span className="text-[9px] sm:text-[10px] font-mono font-bold bg-amber-400/10 text-amber-300 border border-amber-400/30 px-2 py-0.5 rounded flex items-center gap-1">
-                    <ShieldCheck className="w-3 h-3 text-amber-400" /> TEST MODE ACTIVE
-                  </span>
-                ) : (
-                  <span className="text-[9px] sm:text-[10px] font-mono font-bold bg-emerald-400/10 text-emerald-300 border border-emerald-400/30 px-2 py-0.5 rounded flex items-center gap-1">
-                    <ShieldCheck className="w-3 h-3 text-emerald-400" /> RAZORPAY VERIFIED
-                  </span>
-                )}
+                <span className="text-[9px] sm:text-[10px] font-mono font-bold bg-emerald-400/10 text-emerald-300 border border-emerald-400/30 px-2.5 py-0.5 rounded-full flex items-center gap-1">
+                  <ShieldCheck className="w-3 h-3 text-emerald-400" /> RAZORPAY VERIFIED
+                </span>
               </div>
             </div>
 
