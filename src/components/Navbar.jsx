@@ -7,10 +7,8 @@ export default function Navbar({ onOpenCheckout }) {
 
   const navLinks = [
     { name: "Overview", href: "#overview" },
-    { name: "Process", href: "#process" },
     { name: "Target Industries", href: "#audience" },
-    { name: "Curriculum", href: "#curriculum" },
-    { name: "Bonuses", href: "#bonuses" }
+    { name: "Curriculum", href: "#curriculum" }
   ];
 
   return (

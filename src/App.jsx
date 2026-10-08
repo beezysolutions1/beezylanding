@@ -5,10 +5,8 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import StatsBar from './components/StatsBar';
 import OpportunitySection from './components/OpportunitySection';
-import ProcessStepsSection from './components/ProcessStepsSection';
 import WhoIsThisFor from './components/WhoIsThisFor';
 import WhatYouWillLearn from './components/WhatYouWillLearn';
-import BonusStackSection from './components/BonusStackSection';
 import FounderNote from './components/FounderNote';
 import FinalCta from './components/FinalCta';
 import Footer from './components/Footer';
@@ -98,30 +96,20 @@ function App() {
           onOpenCheckout={openCheckout} 
         />
 
-        {/* Section 4: 3-Step Execution Roadmap */}
-        <ProcessStepsSection 
-          onOpenCheckout={openCheckout}
-        />
-
-        {/* Section 5: Target Industries (Who Is This For?) */}
+        {/* Section 4: Target Industries (Who Is This For?) */}
         <WhoIsThisFor 
           onOpenCheckout={openCheckout} 
         />
 
-        {/* Section 6: Curriculum (What You'll Learn) */}
+        {/* Section 5: Curriculum (What You'll Learn) */}
         <WhatYouWillLearn 
           onOpenCheckout={openCheckout} 
         />
 
-        {/* Section 7: 4 Exclusive Free Bonuses Stack */}
-        <BonusStackSection 
-          onOpenCheckout={openCheckout}
-        />
-
-        {/* Section 8: Founder Transparency Note & Beezy Solutions Credentials */}
+        {/* Section 6: Founder Transparency Note & Beezy Solutions Credentials */}
         <FounderNote />
 
-        {/* Section 9: Final High-Urgency Call to Action */}
+        {/* Section 7: Final High-Urgency Call to Action */}
         <FinalCta onOpenCheckout={openCheckout} />
       </main>
 
