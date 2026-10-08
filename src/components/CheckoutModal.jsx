@@ -17,7 +17,7 @@ import BeezyLogo from './BeezyLogo';
 // =========================================================================
 // 💳 RAZORPAY CONFIGURATION (Loaded from .env with fallback)
 // =========================================================================
-export const RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_test_TJLoLZ2dLRF2W4"; 
+export const RAZORPAY_PAGE_URL = "https://rzp.io/rzp/zPXIWVk";
 
 export default function CheckoutModal({ isOpen, onClose, onOpenLegal }) {
   const [isProcessing, setIsProcessing] = useState(false);
@@ -27,77 +27,9 @@ export default function CheckoutModal({ isOpen, onClose, onOpenLegal }) {
 
   if (!isOpen) return null;
 
-  const isTestMode = !RAZORPAY_KEY_ID || RAZORPAY_KEY_ID.startsWith('rzp_test_');
-
   const handlePayWithRazorpay = (e) => {
     if (e) e.preventDefault();
-    setErrorMessage('');
-    setIsProcessing(true);
-
-    // If using placeholder test key or Razorpay SDK not available, run instant test simulation
-    if (!RAZORPAY_KEY_ID || RAZORPAY_KEY_ID === "rzp_test_YOUR_KEY_HERE" || typeof window.Razorpay === 'undefined') {
-      setTimeout(() => {
-        completePaymentSimulation('test_pay_' + Math.random().toString(36).substring(2, 10));
-      }, 1000);
-      return;
-    }
-
-    try {
-      const options = {
-        key: RAZORPAY_KEY_ID,
-        amount: 499 * 100, // 49900 paise = ₹499
-        currency: "INR",
-        name: "Beezy Solutions",
-        description: "Google Business Profile Consultation Guide",
-        prefill: {},
-        notes: {
-          product: "GBP Consultation Guide",
-          company: "Beezy Solutions Kochi"
-        },
-        theme: {
-          color: "#00df9a",
-          backdrop_color: "rgba(3, 13, 15, 0.85)"
-        },
-        retry: {
-          enabled: false
-        },
-        modal: {
-          ondismiss: function () {
-            setIsProcessing(false);
-          }
-        },
-        handler: function (response) {
-          setIsProcessing(false);
-          const payId = response.razorpay_payment_id || 'pay_success';
-          setPaymentId(payId);
-          setIsSuccess(true);
-          
-          // 🚀 AUTO-TRIGGER INSTANT DOWNLOAD IMMEDIATELY
-          setTimeout(() => {
-            triggerFileDownload(payId);
-          }, 600);
-
-          try {
-            confetti({
-              particleCount: 150,
-              spread: 90,
-              origin: { y: 0.6 },
-              colors: ['#00df9a', '#10b981', '#14b8a6', '#ffffff']
-            });
-          } catch (err) {}
-        }
-      };
-
-      const rzp = new window.Razorpay(options);
-      rzp.on('payment.failed', function (response) {
-        setIsProcessing(false);
-        setErrorMessage(response.error?.description || "Payment was cancelled or failed. Please try again.");
-      });
-      rzp.open();
-    } catch (err) {
-      console.error("Razorpay Error:", err);
-      completePaymentSimulation('test_pay_' + Date.now());
-    }
+    window.location.href = RAZORPAY_PAGE_URL;
   };
 
   const completePaymentSimulation = (simId) => {
