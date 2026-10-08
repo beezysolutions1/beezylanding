@@ -14,9 +14,7 @@ import {
 import confetti from 'canvas-confetti';
 import BeezyLogo from './BeezyLogo';
 
-// =========================================================================
-// 💳 RAZORPAY CONFIGURATION (Loaded from .env with fallback)
-// =========================================================================
+export const RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_live_TPA7q1NxbassQE";
 export const RAZORPAY_PAGE_URL = "https://rzp.io/rzp/zPXIWVk";
 
 export default function CheckoutModal({ isOpen, onClose, onOpenLegal }) {
@@ -29,6 +27,62 @@ export default function CheckoutModal({ isOpen, onClose, onOpenLegal }) {
 
   const handlePayWithRazorpay = (e) => {
     if (e) e.preventDefault();
+    setErrorMessage('');
+    setIsProcessing(true);
+
+    // If Razorpay JS is loaded, open the seamless checkout popup
+    if (typeof window.Razorpay !== 'undefined') {
+      try {
+        const options = {
+          key: RAZORPAY_KEY_ID,
+          amount: 499 * 100, // 49900 paise = ₹499
+          currency: "INR",
+          name: "Beezy Solutions",
+          description: "Google Business Profile Consultation Guide",
+          image: "/favicon.svg",
+          theme: {
+            color: "#00df9a",
+            backdrop_color: "rgba(3, 13, 15, 0.85)"
+          },
+          modal: {
+            ondismiss: function () {
+              setIsProcessing(false);
+            }
+          },
+          handler: function (response) {
+            setIsProcessing(false);
+            const payId = response.razorpay_payment_id || 'pay_' + Date.now();
+            setPaymentId(payId);
+            setIsSuccess(true);
+            
+            // 🚀 IMMEDIATELY TRIGGER AUTOMATIC PDF DOWNLOAD
+            triggerFileDownload(payId);
+
+            try {
+              confetti({
+                particleCount: 160,
+                spread: 100,
+                origin: { y: 0.6 },
+                colors: ['#00df9a', '#10b981', '#14b8a6', '#ffffff']
+              });
+            } catch (err) {}
+          }
+        };
+
+        const rzp = new window.Razorpay(options);
+        rzp.on('payment.failed', function (response) {
+          setIsProcessing(false);
+          // If popup fails, smoothly redirect to the official Razorpay payment page
+          window.location.href = RAZORPAY_PAGE_URL;
+        });
+        rzp.open();
+        return;
+      } catch (err) {
+        console.error("Razorpay popup error:", err);
+      }
+    }
+
+    // Fallback: direct redirect to Razorpay Payment Page
     window.location.href = RAZORPAY_PAGE_URL;
   };
 

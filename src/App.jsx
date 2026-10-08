@@ -66,10 +66,8 @@ function App() {
     }
   }, [isCheckoutOpen, isLegalOpen]);
 
-  const RAZORPAY_PAGE_URL = 'https://rzp.io/rzp/zPXIWVk';
-
   const openCheckout = () => {
-    window.location.href = RAZORPAY_PAGE_URL;
+    setIsCheckoutOpen(true);
   };
 
   const openLegal = (tab = 'terms') => {
