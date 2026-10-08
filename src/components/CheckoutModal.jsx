@@ -17,11 +17,29 @@ import BeezyLogo from './BeezyLogo';
 export const RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_live_TPA7q1NxbassQE";
 export const RAZORPAY_PAGE_URL = "https://rzp.io/rzp/TM2xfZvh";
 
-export default function CheckoutModal({ isOpen, onClose, onOpenLegal }) {
+export default function CheckoutModal({ isOpen, onClose, onOpenLegal, initialSuccess = false }) {
   const [isProcessing, setIsProcessing] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(initialSuccess);
   const [paymentId, setPaymentId] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+
+  // When opened via post-payment redirect (?payment=success), auto-trigger confetti and download
+  React.useEffect(() => {
+    if (initialSuccess) {
+      setIsSuccess(true);
+      setTimeout(() => {
+        triggerFileDownload('BEEZY_PAID_' + Date.now());
+      }, 500);
+      try {
+        confetti({
+          particleCount: 160,
+          spread: 100,
+          origin: { y: 0.6 },
+          colors: ['#00df9a', '#10b981', '#14b8a6', '#ffffff']
+        });
+      } catch (e) {}
+    }
+  }, [initialSuccess]);
 
   if (!isOpen) return null;
 
@@ -287,17 +305,29 @@ Contact Beezy Solutions · Kochi, Kerala · https://beezysolutions.in
               </div>
             </div>
 
-            <button
-              onClick={() => triggerFileDownload(paymentId)}
-              className="w-full bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-500 hover:from-emerald-300 hover:to-teal-300 text-slate-950 font-display font-black text-sm sm:text-base py-3.5 px-6 rounded-xl sm:rounded-2xl shadow-lg shadow-emerald-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer hover:scale-105"
-            >
-              <Download className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span>DOWNLOAD AGAIN</span>
-            </button>
+            <div className="space-y-2.5">
+              <button
+                onClick={() => triggerFileDownload(paymentId)}
+                className="w-full bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-500 hover:from-emerald-300 hover:to-teal-300 text-slate-950 font-display font-black text-sm sm:text-base py-3.5 px-6 rounded-xl sm:rounded-2xl shadow-lg shadow-emerald-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer hover:scale-[1.02] active:scale-95"
+              >
+                <Download className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span>DOWNLOAD PDF AGAIN</span>
+              </button>
+
+              <a
+                href="/Google-Business-Profile-Guide.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full bg-[#082227] hover:bg-[#0c3138] text-emerald-300 font-display font-bold text-xs sm:text-sm py-3 px-4 rounded-xl sm:rounded-2xl border border-emerald-500/30 transition-all flex items-center justify-center gap-2"
+              >
+                <span>OPEN &amp; READ PDF IN BROWSER</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </a>
+            </div>
 
             <button
               onClick={onClose}
-              className="text-xs text-slate-400 hover:text-white underline underline-offset-4 cursor-pointer"
+              className="text-xs text-slate-400 hover:text-white underline underline-offset-4 cursor-pointer pt-2 block mx-auto"
             >
               Close Window
             </button>

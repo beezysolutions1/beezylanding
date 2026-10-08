@@ -17,9 +17,21 @@ import LegalModal from './components/LegalModal';
 
 function App() {
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [isSuccessView, setIsSuccessView] = useState(false);
   const [isLegalOpen, setIsLegalOpen] = useState(false);
   const [legalTab, setLegalTab] = useState('terms');
   const lenisRef = useRef(null);
+
+  // Check if visitor was redirected back after payment (e.g. ?payment=success or ?payment_id=...)
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('payment') === 'success' || params.get('success') === 'true' || params.get('payment_id') || params.get('razorpay_payment_id')) {
+        setIsSuccessView(true);
+        setIsCheckoutOpen(true);
+      }
+    }
+  }, []);
 
   // Initialize Lenis smooth scroll engine
   useEffect(() => {
@@ -125,8 +137,12 @@ function App() {
       {/* Interactive Checkout Modal */}
       <CheckoutModal 
         isOpen={isCheckoutOpen} 
-        onClose={() => setIsCheckoutOpen(false)} 
+        onClose={() => {
+          setIsCheckoutOpen(false);
+          setIsSuccessView(false);
+        }} 
         onOpenLegal={openLegal}
+        initialSuccess={isSuccessView}
       />
 
       {/* Legal Policies Modal (Terms, Refund, Privacy, Contact) */}
