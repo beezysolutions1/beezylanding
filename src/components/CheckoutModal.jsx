@@ -30,16 +30,7 @@ export default function CheckoutModal({ isOpen, onClose, onOpenLegal }) {
   const handlePayWithRazorpay = (e) => {
     if (e) e.preventDefault();
     setIsProcessing(true);
-
-    // 🧪 In localhost: Run complete simulated payment + real PDF auto-download
-    if (isLocalhost) {
-      setTimeout(() => {
-        completePaymentSimulation('test_pay_' + Math.random().toString(36).substring(2, 9));
-      }, 1000);
-      return;
-    }
-
-    // 🚀 In production: Directly launch official Live Razorpay checkout
+    // Directly launch official Razorpay payment page with all UPI, Card, NetBanking options
     window.location.href = RAZORPAY_PAGE_URL;
   };
 
