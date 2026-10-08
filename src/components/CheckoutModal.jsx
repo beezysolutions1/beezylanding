@@ -25,6 +25,8 @@ export default function CheckoutModal({ isOpen, onClose, onOpenLegal }) {
 
   if (!isOpen) return null;
 
+  const isTestMode = !RAZORPAY_KEY_ID || RAZORPAY_KEY_ID.startsWith('rzp_test_');
+
   const handlePayWithRazorpay = (e) => {
     if (e) e.preventDefault();
     setErrorMessage('');
@@ -337,10 +339,10 @@ Contact Beezy Solutions · Kochi, Kerala · https://beezysolutions.in
               </div>
               <div className="grow min-w-0">
                 <h4 className="text-xs font-bold text-white truncate">
-                  Google-Business-Profile-Masterclass.pdf
+                  Google-Business-Profile-Guide.pdf
                 </h4>
                 <p className="text-[10px] sm:text-[11px] text-slate-400 truncate">
-                  Full 22-Page Masterclass · By Rashid
+                  Full Consultation Blueprint · By Rashid
                 </p>
               </div>
             </div>
