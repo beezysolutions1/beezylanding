@@ -15,7 +15,7 @@ import confetti from 'canvas-confetti';
 import BeezyLogo from './BeezyLogo';
 
 export const RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_live_TPA7q1NxbassQE";
-export const RAZORPAY_PAGE_URL = "https://rzp.io/rzp/zPXIWVk";
+export const RAZORPAY_PAGE_URL = "https://rzp.io/rzp/TM2xfZvh";
 
 export default function CheckoutModal({ isOpen, onClose, onOpenLegal }) {
   const [isProcessing, setIsProcessing] = useState(false);
