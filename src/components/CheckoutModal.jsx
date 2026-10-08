@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   X, 
   ShieldCheck, 
@@ -8,88 +8,34 @@ import {
   Zap, 
   ArrowRight, 
   FileCheck,
-  AlertCircle,
   Check
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import BeezyLogo from './BeezyLogo';
 
-export const RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_live_TPA7q1NxbassQE";
 export const RAZORPAY_PAGE_URL = "https://rzp.io/rzp/TM2xfZvh";
 
-export default function CheckoutModal({ isOpen, onClose, onOpenLegal, initialSuccess = false }) {
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(initialSuccess);
-  const [paymentId, setPaymentId] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-
-  // When opened via post-payment redirect (?payment=success), auto-trigger confetti and download
-  React.useEffect(() => {
-    if (initialSuccess) {
-      setIsSuccess(true);
-      setTimeout(() => {
-        triggerFileDownload('BEEZY_PAID_' + Date.now());
-      }, 500);
-      try {
-        confetti({
-          particleCount: 160,
-          spread: 100,
-          origin: { y: 0.6 },
-          colors: ['#00df9a', '#10b981', '#14b8a6', '#ffffff']
-        });
-      } catch (e) {}
-    }
-  }, [initialSuccess]);
-
-  if (!isOpen) return null;
-
-  const isLocalhost = typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
-
-  const handlePayWithRazorpay = (e) => {
-    if (e) e.preventDefault();
-    setIsProcessing(true);
-    // Directly launch official Razorpay payment page with all UPI, Card, NetBanking options
-    window.location.href = RAZORPAY_PAGE_URL;
+function triggerFileDownload(pId) {
+  const link = document.createElement('a');
+  link.href = '/Google-Business-Profile-Guide.pdf';
+  link.download = 'Google-Business-Profile-Guide.pdf';
+  
+  link.onerror = () => {
+    downloadGeneratedGuide(pId);
   };
+  
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
 
-  const completePaymentSimulation = (simId) => {
-    setIsProcessing(false);
-    setPaymentId(simId);
-    setIsSuccess(true);
-    setTimeout(() => {
-      triggerFileDownload(simId);
-    }, 600);
-    try {
-      confetti({
-        particleCount: 150,
-        spread: 90,
-        origin: { y: 0.6 },
-        colors: ['#00df9a', '#10b981', '#14b8a6', '#ffffff']
-      });
-    } catch (err) {}
-  };
-
-  const triggerFileDownload = (pId) => {
-    const link = document.createElement('a');
-    link.href = '/Google-Business-Profile-Guide.pdf';
-    link.download = 'Google-Business-Profile-Guide.pdf';
-    
-    link.onerror = () => {
-      downloadGeneratedGuide(pId);
-    };
-    
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
-  const downloadGeneratedGuide = (pId) => {
-    const content = `===================================================================
+function downloadGeneratedGuide(pId) {
+  const content = `===================================================================
 BEEZY SOLUTIONS · GOOGLE BUSINESS PROFILE CONSULTATION BLUEPRINT
 ===================================================================
 Author: Rashid (Founder, Beezy Solutions, Kochi, Kerala)
 Official Purchase Receipt & Lifetime Guide License
-Payment Reference ID: ${pId || paymentId || 'BEEZY-VERIFIED-' + Date.now()}
+Payment Reference ID: ${pId || 'BEEZY-VERIFIED-' + Date.now()}
 ===================================================================
 
 CHAPTER 1: PROFILE ARCHITECTURE & AUTHORITY
@@ -117,14 +63,47 @@ Need personalized implementation assistance?
 Contact Beezy Solutions · Kochi, Kerala · https://beezysolutions.in
 ===================================================================`;
 
-    const blob = new Blob([content], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'Beezy-Solutions-GBP-Consultation-Guide.txt';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+  const blob = new Blob([content], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'Beezy-Solutions-GBP-Consultation-Guide.txt';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+export default function CheckoutModal({ isOpen, onClose, onOpenLegal, initialSuccess = false }) {
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(initialSuccess);
+
+  // When opened via post-payment redirect (?payment=success), auto-trigger confetti and download
+  useEffect(() => {
+    if (initialSuccess) {
+      setIsSuccess(true);
+      setTimeout(() => {
+        triggerFileDownload('BEEZY_PAID_' + Date.now());
+      }, 500);
+      try {
+        confetti({
+          particleCount: 160,
+          spread: 100,
+          origin: { y: 0.6 },
+          colors: ['#00df9a', '#10b981', '#14b8a6', '#ffffff']
+        });
+      } catch {
+        // no-op
+      }
+    }
+  }, [initialSuccess]);
+
+  if (!isOpen) return null;
+
+  const handlePayWithRazorpay = (e) => {
+    if (e) e.preventDefault();
+    setIsProcessing(true);
+    // Directly launch official Razorpay payment page with all UPI, Card, NetBanking options
+    window.location.href = RAZORPAY_PAGE_URL;
   };
 
   return (
@@ -210,13 +189,6 @@ Contact Beezy Solutions · Kochi, Kerala · https://beezysolutions.in
               </span>
             </div>
 
-            {errorMessage && (
-              <div className="mb-4 p-3 bg-red-950/60 border border-red-500/40 rounded-xl text-red-300 text-xs flex items-center gap-2">
-                <AlertCircle className="w-4 h-4 shrink-0" />
-                <span>{errorMessage}</span>
-              </div>
-            )}
-
             {/* 1-Click Razorpay Pay Button */}
             <button
               onClick={handlePayWithRazorpay}
@@ -268,7 +240,7 @@ Contact Beezy Solutions · Kochi, Kerala · https://beezysolutions.in
             </div>
           </div>
         ) : (
-          /* Payment Success Screen */
+          /* Payment Success & Download Screen */
           <div className="text-center py-4 space-y-4 sm:space-y-5 animate-fadeIn">
             <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center mx-auto shadow-lg shadow-emerald-500/20">
               <CheckCircle className="w-8 h-8 sm:w-10 sm:h-10" />
@@ -284,11 +256,6 @@ Contact Beezy Solutions · Kochi, Kerala · https://beezysolutions.in
               <p className="text-xs text-slate-300 mt-1 max-w-sm mx-auto">
                 Thank you for choosing Beezy Solutions! Your download has started automatically.
               </p>
-              {paymentId && (
-                <p className="text-[10px] font-mono text-emerald-400/80 mt-1">
-                  Payment Reference ID: {paymentId}
-                </p>
-              )}
             </div>
 
             <div className="p-3.5 sm:p-4 rounded-2xl bg-[#030a0c] border border-emerald-500/30 text-left flex items-center gap-3">
@@ -307,7 +274,7 @@ Contact Beezy Solutions · Kochi, Kerala · https://beezysolutions.in
 
             <div className="space-y-2.5">
               <button
-                onClick={() => triggerFileDownload(paymentId)}
+                onClick={() => triggerFileDownload('BEEZY_PAID')}
                 className="w-full bg-gradient-to-r from-emerald-400 via-teal-400 to-emerald-500 hover:from-emerald-300 hover:to-teal-300 text-slate-950 font-display font-black text-sm sm:text-base py-3.5 px-6 rounded-xl sm:rounded-2xl shadow-lg shadow-emerald-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer hover:scale-[1.02] active:scale-95"
               >
                 <Download className="w-4 h-4 sm:w-5 sm:h-5" />
